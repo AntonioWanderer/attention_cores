@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "attention_cores"
+version = "0.0.1"
+description = "Project with different attention layers variants, different levels of hardware optimizations"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "Anton Ageikov", email = "ageikow@gmail.com" }
+]
+
+dependencies = [
+    "torch>=2.13.0",
+    "torchvision",
+]
+
+[tool.uv]
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
