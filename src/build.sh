@@ -9,7 +9,9 @@ INCLUDEFLAGS="-Icommon -Iscalar_cpp_kernels -Isimd_cpp_kernels"
 SRC="common/tensor.cpp \
      scalar_cpp_kernels/matmul.cpp \
      simd_cpp_kernels/matmul_simd.cpp \
-     ../tests/test_matmul.cpp"
+     ../tests/test_matmul.cpp \
+     ../bench/bench_matmul.cpp \
+     ../main.cpp"
 TARGET="build/test"
 
 $CC $CFLAGS $INCLUDEFLAGS $SRC -o $TARGET

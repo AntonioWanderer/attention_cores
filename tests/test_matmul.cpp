@@ -2,13 +2,14 @@
 #include <iostream>
 #include "matmul.h"
 #include "matmul_simd.h"
+#include "test_matmul.h"
 
 
-int main()
+int test_matmul()
 {
-    size_t M = 8;
-    size_t N = 4;
-    size_t K = 16;
+    size_t M = 81;
+    size_t N = 53;
+    size_t K = 29;
 
     Tensor2D mat1_rand(M, N, true);
     Tensor2D mat2_rand(N, K, true);
@@ -16,7 +17,7 @@ int main()
     Tensor2D matmul_res_scalar = MatMul(mat1_rand, mat2_rand);
     Tensor2D matmul_res_simd = MatMulSIMD(mat1_rand, mat2_rand);
 
-    std::cout << "Start test\n";
+    std::cout << "Start test matmul scalar==simd version\n";
 
     if (matmul_res_scalar.B != matmul_res_simd.B) {
         std::cout << "Not equal num rows\n";
@@ -47,7 +48,6 @@ int main()
         }
     }
     
-    std::cout << "MatMul correct\n";
-
+    std::cout << "both MatMul are correct\n";
     return 0;
 }
