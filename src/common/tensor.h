@@ -4,6 +4,17 @@
 #include <vector>
 #include <cstddef>
 
+struct Tensor1D {
+    size_t B;
+    std::vector<float> data;
+
+    Tensor1D(size_t b, bool init_random = false);
+    float& at(size_t b);
+    const float& at(size_t b) const;
+    float* addr(size_t b);
+    const float* addr(size_t b) const;
+};
+
 
 struct Tensor3D {
     size_t B, S, E; // Batch, Sequence, Embedding dim

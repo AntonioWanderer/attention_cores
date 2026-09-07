@@ -2,6 +2,33 @@
 #include <random>
 
 
+Tensor1D::Tensor1D(size_t b, bool init_random) : B(b), data(b, 0.0f) {
+    if (init_random) {
+        std::default_random_engine generator(42);
+        std::uniform_real_distribution distribution(-1.0f, 1.0f);
+        for (auto& val : data) {
+            val = distribution(generator);
+        }
+    }
+}
+
+float& Tensor1D::at(size_t b) {
+    return data[b];
+}
+
+const float& Tensor1D::at(size_t b) const {
+    return data[b];
+}
+
+float* Tensor1D::addr(size_t b) {
+    return &data[b];
+}
+
+const float* Tensor1D::addr(size_t b) const {
+    return &data[b];
+}
+
+
 Tensor2D::Tensor2D(size_t b, size_t s, bool init_random) : B(b), S(s), data(b * s, 0.0f) {
     if (init_random) {
         std::default_random_engine generator(42);
