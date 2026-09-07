@@ -3,10 +3,18 @@
 
 Tensor1D Softmax(Tensor1D data_line) {
     size_t B = data_line.B;
+
+    float softmax_bias = data_line.at(0);
+    for (size_t item = 0; item < B; item++) {
+        if (data_line.at(item) > softmax_bias){
+            softmax_bias = data_line.at(item);
+        }
+    }
+
     Tensor1D result = Tensor1D(B, false);
     float exp_accumulator = 0.0f;
     for (size_t item = 0; item < B; item++) {
-        result.at(item) = std::exp2f(data_line.at(item));
+        result.at(item) = std::exp2f(data_line.at(item) - softmax_bias);
         exp_accumulator += result.at(item);
     }
     float reversed_sum = 1 / exp_accumulator;
