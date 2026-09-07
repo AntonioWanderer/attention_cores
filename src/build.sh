@@ -14,6 +14,7 @@ SRC="common/tensor.cpp \
      ../tests/test_matmul.cpp \
      ../tests/test_softmax.cpp \
      ../bench/bench_matmul.cpp \
+     ../bench/bench_softmax.cpp \
      ../main.cpp"
 TARGET="build/test"
 
