@@ -16,16 +16,6 @@ struct Tensor1D {
 };
 
 
-struct Tensor3D {
-    size_t B, S, E; // Batch, Sequence, Embedding dim
-    std::vector<float> data;
-
-    Tensor3D(size_t b, size_t s, size_t e, bool init_random = false);
-    float& at(size_t b, size_t s, size_t e);
-    const float& at(size_t b, size_t s, size_t e) const;
-};
-
-
 struct Tensor2D {
     size_t B, S;
     std::vector<float> data;
@@ -35,6 +25,30 @@ struct Tensor2D {
     const float& at(size_t b, size_t s) const;
     float* addr(size_t b, size_t s);
     const float* addr(size_t b, size_t s) const;
+};
+
+
+struct Tensor3D {
+    size_t B, S, E; // Batch, Sequence, Embedding dim
+    std::vector<float> data;
+
+    Tensor3D(size_t b, size_t s, size_t e, bool init_random = false);
+    float& at(size_t b, size_t s, size_t e);
+    const float& at(size_t b, size_t s, size_t e) const;
+    float* addr(size_t b, size_t s, size_t e);
+    const float* addr(size_t b, size_t s, size_t e) const;
+};
+
+
+struct Tensor4D {
+    size_t B, S, E, N;
+    std::vector<float> data;
+
+    Tensor4D(size_t b, size_t s, size_t e, size_t n, bool init_random = false);
+    float& at(size_t b, size_t s, size_t e, size_t n);
+    const float& at(size_t b, size_t s, size_t e, size_t n) const;
+    float* addr(size_t b, size_t s, size_t e, size_t n);
+    const float* addr(size_t b, size_t s, size_t e, size_t n) const;
 };
 
 
