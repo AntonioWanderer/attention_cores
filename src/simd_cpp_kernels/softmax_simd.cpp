@@ -13,10 +13,12 @@ Tensor1D SoftmaxSimd(Tensor1D data_line){
         }
     }
 
+    float log2e = log2(exp(1.0f));
+
     Tensor1D result = Tensor1D(B, false);
     float exp_accumulator = 0.0f;
     for (size_t item = 0; item < B; item++) {
-        result.at(item) = std::exp2f(data_line.at(item) - softmax_bias);
+        result.at(item) = std::exp2f((data_line.at(item) - softmax_bias) * log2e);
         exp_accumulator += result.at(item);
     }
     float reversed_sum = 1 / exp_accumulator;

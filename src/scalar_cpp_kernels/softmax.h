@@ -5,6 +5,6 @@
 
 Tensor1D Softmax(Tensor1D data_line);
 
-Tensor2D Softmax(Tensor2D data_matrix);
+// Tensor2D Softmax(Tensor2D data_matrix);
 
 #endif
