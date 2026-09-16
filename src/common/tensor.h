@@ -32,6 +32,7 @@ struct Tensor3D {
     size_t B, S, E; // Batch, Sequence, Embedding dim
     std::vector<float> data;
 
+    Tensor3D();
     Tensor3D(size_t b, size_t s, size_t e, bool init_random = false);
     float& at(size_t b, size_t s, size_t e);
     const float& at(size_t b, size_t s, size_t e) const;

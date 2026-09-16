@@ -55,6 +55,9 @@ const float* Tensor2D::addr(size_t b, size_t s) const {
     return &data[b * S + s];
 }
 
+Tensor3D::Tensor3D(){
+
+}
 
 Tensor3D::Tensor3D(size_t b, size_t s, size_t e, bool init_random) : B(b), S(s), E(e), data(b * s * e, 0.0f) {
     if (init_random) {
