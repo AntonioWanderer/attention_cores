@@ -11,6 +11,8 @@ SRC="common/tensor.cpp \
      simd_cpp_kernels/matmul_simd.cpp \
      scalar_cpp_kernels/softmax.cpp \
      simd_cpp_kernels/softmax_simd.cpp \
+     scalar_cpp_kernels/division.cpp \
+     scalar_cpp_kernels/multihead_attention.cpp \
      ../tests/test_matmul.cpp \
      ../tests/test_softmax.cpp \
      ../bench/bench_matmul.cpp \
