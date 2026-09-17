@@ -3,7 +3,7 @@
 set -e
 
 CC="g++"
-CFLAGS="-Wall -Wextra -O2 -march=native"
+CFLAGS="-shared -fPIC -O2 -march=native $(python3 -m pybind11 --includes)"
 INCLUDEFLAGS="-Icommon -Iscalar_cpp_kernels -Isimd_cpp_kernels"
 # $PWD/scalar_cpp_kernels/multihead_attention.cpp 
 SRC="common/core_tensor.cpp \
@@ -16,8 +16,8 @@ SRC="common/core_tensor.cpp \
      ../tests/test_matmul.cpp \
      ../tests/test_softmax.cpp \
      ../bench/bench_matmul.cpp \
-     ../bench/bench_softmax.cpp \
-     ../main.cpp"
-TARGET="build/test"
+     ../bench/bench_softmax.cpp"
+     # ../main.cpp
+TARGET="build/attention_cpp$(python3-config --extension-suffix)"
 
 $CC $CFLAGS $INCLUDEFLAGS $SRC -o $TARGET
