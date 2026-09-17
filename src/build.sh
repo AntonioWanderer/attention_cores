@@ -6,7 +6,7 @@ CC="g++"
 CFLAGS="-Wall -Wextra -O2 -march=native"
 INCLUDEFLAGS="-Icommon -Iscalar_cpp_kernels -Isimd_cpp_kernels"
 # $PWD/scalar_cpp_kernels/multihead_attention.cpp 
-SRC="common/tensor.cpp \
+SRC="common/core_tensor.cpp \
      scalar_cpp_kernels/matmul.cpp \
      simd_cpp_kernels/matmul_simd.cpp \
      scalar_cpp_kernels/softmax.cpp \

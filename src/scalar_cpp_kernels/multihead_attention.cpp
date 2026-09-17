@@ -1,6 +1,6 @@
 #include <cassert>
 #include <cmath>
-#include "tensor.h"
+#include "core_tensor.h"
 #include "matmul.h"
 #include "softmax.h"
 #include "division.h"
