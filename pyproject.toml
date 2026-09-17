@@ -28,3 +28,6 @@ explicit = true
 [tool.uv.sources]
 torch = { index = "pytorch-cpu" }
 torchvision = { index = "pytorch-cpu" }
+
+[tool.hatch.build.targets.wheel]
+packages = ["src_python", "tests_python"]

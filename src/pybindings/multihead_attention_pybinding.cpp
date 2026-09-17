@@ -6,7 +6,7 @@
 
 namespace py = pybind11;
 
-py::array_t<float> multihead_attention(
+py::array_t<float> multihead_attention_py(
     py::array_t<float, py::array::c_style | py::array::forcecast> input_tensor, 
     py::array_t<float, py::array::c_style | py::array::forcecast> W_Q, 
     py::array_t<float, py::array::c_style | py::array::forcecast> W_K, 
@@ -54,4 +54,8 @@ py::array_t<float> multihead_attention(
     std::memcpy(py_attention_out.mutable_data(), attention_out.data.data(), B * S * E * sizeof(float));
 
     return py_attention_out;
+}
+
+PYBIND11_MODULE(attention_cpp, m) {
+    m.def("attention", &multihead_attention_py);
 }
