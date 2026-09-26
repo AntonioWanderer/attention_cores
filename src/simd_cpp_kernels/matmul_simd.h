@@ -4,5 +4,7 @@
 #include "core_tensor.h"
 
 Tensor2D MatMulSIMD(const Tensor2D& mat1, const Tensor2D& mat2);
+Tensor3D BatchMatMulSIMD(const Tensor3D& mat1, const Tensor2D& mat2);
+
 
 #endif
