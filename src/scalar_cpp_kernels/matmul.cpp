@@ -138,13 +138,12 @@ Tensor3D BatchMatMulHeads(const Tensor3D& mat1, const Tensor3D& mat2, size_t num
                         } else {
                             mk_value += mat1.at(b, s1, (dh1 * h + d)) * mat2.at(b, d, (h * dh2) + s2);
                         }
+                    }
                     if (last_require_transpose) {
                         result.at(b, s1, (h * S) + s2) = mk_value;
                     } else {
                         result.at(b, s1, (h * dh2) + s2) = mk_value;
-                    }
-                    
-                    }
+                    } 
                 }
             }
         }
