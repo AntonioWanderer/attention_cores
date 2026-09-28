@@ -19,8 +19,8 @@ Tensor3D DivideSIMD(Tensor3D input, double divisor){
                     break;
                 }
                 __m256 loaded_line = _mm256_loadu_ps(input.addr(b, s, e));
-                __m256 divided_line = _m256_mul_ps(loaded_line, reversed_divisor);
-                _m256_storeu_ps(divided_line, result.addr(b, s, e));
+                __m256 divided_line = _mm256_mul_ps(loaded_line, reversed_divisor);
+                _mm256_storeu_ps(result.addr(b, s, e), divided_line);
             }
             for (size_t e_residual = last_e; e_residual < E; e_residual++) {
                 result.at(b, s, e_residual) = input.at(b, s, e_residual) / divisor;
