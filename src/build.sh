@@ -12,8 +12,12 @@ SRC="common/core_tensor.cpp \
      scalar_cpp_kernels/softmax.cpp \
      simd_cpp_kernels/softmax_simd.cpp \
      scalar_cpp_kernels/division.cpp \
+     simd_cpp_kernels/division_simd.cpp \
      scalar_cpp_kernels/multihead_attention.cpp \
+     simd_cpp_kernels/multihead_attention_simd.cpp \
      pybindings/multihead_attention_pybinding.cpp \
+     pybindings/multihead_attention_simd_pybinding.cpp \
+     pybindings/register_pybindings.cpp \
      ../tests/test_matmul.cpp \
      ../tests/test_softmax.cpp \
      ../bench/bench_matmul.cpp \
