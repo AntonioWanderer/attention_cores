@@ -7,7 +7,7 @@ from build import attention_cpp
 
 def test_multihead_attention_perf():
 
-    B, S, E, H = 21, 123, 18, 3
+    B, S, E, H = 21, 123, 54, 3
 
     refference_times = []
     scalar_cpp_times = []

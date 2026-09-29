@@ -33,17 +33,6 @@ Tensor3D SoftmaxHeads(Tensor3D input, size_t num_heads) {
     size_t S = input.S;
     size_t E = input.E;
 
-    float softmax_bias = input.at(0, 0, 0);
-    for (size_t b = 0; b < B; b++) {
-        for (size_t s = 0; s < S; s++) {
-            for (size_t e = 0; e < E; e++) {
-                if (input.at(b, s, e) > softmax_bias) {
-                    softmax_bias = input.at(b, s, e);
-                }
-            }
-        }
-    }
-
     float log2e = log2(exp(1.0f));
     size_t D = E / num_heads;
 
@@ -52,6 +41,12 @@ Tensor3D SoftmaxHeads(Tensor3D input, size_t num_heads) {
         for (size_t h = 0; h < num_heads; h++) {
             for (size_t s = 0; s < S; s++) {
                 float exp_accumulator = 0.0f;
+                float softmax_bias = input.at(b, s, D * h);
+                for (size_t s2 = 0; s2 < D; s2++) {
+                    if (input.at(b, s, (D * h) + s2) > softmax_bias) {
+                        softmax_bias = input.at(b, s, (D * h) + s2);
+                    }
+                }
                 for (size_t s2 = 0; s2 < D; s2++) {
                     double exp_value = exp2((input.at(b, s, (D * h) + s2) - softmax_bias) * log2e);
                     result.at(b, s, (D * h) + s2) = exp_value;
