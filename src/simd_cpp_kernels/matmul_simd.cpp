@@ -126,6 +126,7 @@ Tensor3D BatchMatMulHeadsSIMD(const Tensor3D& mat1, const Tensor3D& mat2, size_t
         internal_dimension = dh1;
     }
 
+    Tensor1D mk_vector_receiver = Tensor1D(8, false);
     if (last_require_transpose) {
         for (size_t b = 0; b < B; b++){
             for (size_t h=0; h < num_heads; h++){
@@ -143,7 +144,6 @@ Tensor3D BatchMatMulHeadsSIMD(const Tensor3D& mat1, const Tensor3D& mat2, size_t
                             mk_value = _mm256_fmadd_ps(first_loaded, second_loaded, mk_value);
                         }
                         float final_mk_value = 0.0f;
-                        Tensor1D mk_vector_receiver = Tensor1D(8, false);
                         _mm256_storeu_ps(mk_vector_receiver.addr(0), mk_value);
                         for (size_t recv_i = 0; recv_i < 8; recv_i++){
                             final_mk_value += mk_vector_receiver.at(recv_i);
