@@ -4,6 +4,6 @@
 #include "core_tensor.h"
 
 Tensor1D SoftmaxSimd(Tensor1D data_line);
-// Tensor2D softmax_simd(Tensor2D data_matrix);
+Tensor3D SoftmaxHeadsSIMD(Tensor3D input, size_t num_heads);
 
 #endif
