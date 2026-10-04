@@ -1,6 +1,7 @@
 #include <cassert>
 #include "matmul_simd.h"
 #include <immintrin.h>
+#include "thread_pool.h"
 
 
 Tensor2D MatMulSIMD(const Tensor2D& mat1, const Tensor2D& mat2) {
@@ -42,6 +43,33 @@ Tensor2D MatMulSIMD(const Tensor2D& mat1, const Tensor2D& mat2) {
 }
 
 
+void LayerBatchMatMulSIMD(size_t bs, size_t M, size_t N, size_t K, const Tensor3D& mat1, const Tensor2D& mat2, Tensor3D& result) {
+    for (size_t im=0; im < M; im++) {
+        size_t ik_tail = K;
+        for (size_t ik=0; ik < K; ik+=8) {
+            if (ik + 8 > K) {
+                ik_tail = ik;
+                break;
+            }
+            __m256 mk_value = _mm256_set1_ps(0.0f);
+            for (size_t jn=0; jn < N; jn++) {
+                __m256 first_copied = _mm256_set1_ps(mat1.at(bs, im, jn));
+                __m256 second_loaded = _mm256_loadu_ps(mat2.addr(jn, ik));
+                mk_value = _mm256_fmadd_ps(first_copied, second_loaded, mk_value);
+            }
+            _mm256_storeu_ps(result.addr(bs, im, ik), mk_value);
+        }
+        for (size_t ik_scalar = ik_tail; ik_scalar < K; ik_scalar++) {
+            float mk_value_scalar = 0.0f;
+            for (size_t jn=0; jn < N; jn++) {
+                mk_value_scalar += mat1.at(bs, im, jn) * mat2.at(jn, ik_scalar);
+            }
+            result.at(bs, im, ik_scalar) = mk_value_scalar;
+        }
+    }
+}
+
+
 Tensor3D BatchMatMulSIMD(const Tensor3D& mat1, const Tensor2D& mat2) {
     size_t B = mat1.B;
     size_t M = mat1.S;
@@ -52,32 +80,14 @@ Tensor3D BatchMatMulSIMD(const Tensor3D& mat1, const Tensor2D& mat2) {
     assert(N1 == N2 && "Last dimension of 1 matrix must be == first dimension of 2 matrix");
 
     size_t N = N1;
+
+    ThreadPool pool(12);
+
     Tensor3D result(B, M, K, false);
 
     for (size_t bs = 0; bs < B; bs++){
-        for (size_t im=0; im < M; im++) {
-            size_t ik_tail = K;
-            for (size_t ik=0; ik < K; ik+=8) {
-                if (ik + 8 > K) {
-                    ik_tail = ik;
-                    break;
-                }
-                __m256 mk_value = _mm256_set1_ps(0.0f);
-                for (size_t jn=0; jn < N; jn++) {
-                    __m256 first_copied = _mm256_set1_ps(mat1.at(bs, im, jn));
-                    __m256 second_loaded = _mm256_loadu_ps(mat2.addr(jn, ik));
-                    mk_value = _mm256_fmadd_ps(first_copied, second_loaded, mk_value);
-                }
-                _mm256_storeu_ps(result.addr(bs, im, ik), mk_value);
-            }
-            for (size_t ik_scalar = ik_tail; ik_scalar < K; ik_scalar++) {
-                float mk_value_scalar = 0.0f;
-                for (size_t jn=0; jn < N; jn++) {
-                    mk_value_scalar += mat1.at(bs, im, jn) * mat2.at(jn, ik_scalar);
-                }
-                result.at(bs, im, ik_scalar) = mk_value_scalar;
-            }
-        }
+        pool.enqueue(LayerBatchMatMulSIMD, bs, M, N, K, std::cref(mat1), std::cref(mat2), std::ref(result));
+        // LayerBatchMatMulSIMD(bs, M, N, K, mat1, mat2, result);
     }
 
     return result;
