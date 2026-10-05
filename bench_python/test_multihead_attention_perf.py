@@ -18,29 +18,29 @@ def test_multihead_attention_perf():
         Wk = torch.randn(E, E)
         Wv = torch.randn(E, E)
 
-        refference_start = time.time()
+        refference_start = time.perf_counter()
         refference_result = attention_refference.attention_refference(input_tensor=input_tensor,
                                                                     Wq=Wq,
                                                                     Wk=Wk,
                                                                     Wv=Wv, 
                                                                     num_heads=H)
-        refference_stop = time.time()
+        refference_stop = time.perf_counter()
 
-        scalar_cpp_start = time.time()
+        scalar_cpp_start = time.perf_counter()
         scalar_cpp_result = attention_cpp.attention(input_tensor.numpy(), 
                                                     Wq.numpy(), 
                                                     Wk.numpy(), 
                                                     Wv.numpy(), 
                                                     H)
-        scalar_cpp_stop = time.time()
+        scalar_cpp_stop = time.perf_counter()
 
-        vector_cpp_start = time.time()
+        vector_cpp_start = time.perf_counter()
         vector_cpp_result = attention_cpp.attention_simd(input_tensor.numpy(), 
                                                     Wq.numpy(), 
                                                     Wk.numpy(), 
                                                     Wv.numpy(), 
                                                     H)
-        vector_cpp_stop = time.time()
+        vector_cpp_stop = time.perf_counter()
 
         refference_diff = refference_stop - refference_start
         scalar_cpp_diff = scalar_cpp_stop - scalar_cpp_start
