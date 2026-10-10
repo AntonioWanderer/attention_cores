@@ -1,2 +1,4 @@
-.vscode/settings.json
-src/build
+.vscode/*
+build
+**/__pycache__/
+uv.lock

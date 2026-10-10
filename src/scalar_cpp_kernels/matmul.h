@@ -1,7 +1,7 @@
 #ifndef MATMUL_H
 #define MATMUL_H
 
-#include "tensor.h"
+#include "core_tensor.h"
 
 Tensor2D MatMul(const Tensor2D& mat1, const Tensor2D& mat2);
 
