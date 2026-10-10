@@ -50,20 +50,3 @@ target_include_directories(attention_cpp PRIVATE
 
 target_link_libraries(attention_cpp PRIVATE Threads::Threads)
 target_compile_options(attention_cpp PRIVATE -march=native)
-
-add_executable(attention_bench
-    main.cpp
-    tests/test_matmul.cpp
-    tests/test_softmax.cpp
-    bench/bench_matmul.cpp
-    bench/bench_softmax.cpp
-    ${CORE_SOURCES}
-)
-
-target_include_directories(attention_bench PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CORE_INCLUDE_DIRS}
-)
-
-target_link_libraries(attention_bench PRIVATE Threads::Threads)
-target_compile_options(attention_bench PRIVATE -march=native)
